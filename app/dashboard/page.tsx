@@ -42,7 +42,7 @@ export default function DashboardPage() {
         .then(res => res.json())
         .then(data => setRequests(data))
         .catch(console.error)
-    }, [])
+    }, [router])
 
     if (!user) return null
 

@@ -37,7 +37,8 @@ export default function ProviderDashboard() {
                 
                 const data = await response.json()
                 setRequests(data)
-            } catch (error) {
+            } catch (err) {
+                console.log(err)
                 toast({
                     variant: "destructive",
                     title: "Error",

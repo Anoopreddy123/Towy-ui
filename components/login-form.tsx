@@ -24,8 +24,8 @@ export function LoginForm() {
       window.location.href = response.user.role === 'provider' 
         ? '/provider/dashboard' 
         : '/dashboard'
-    } catch (error) {
-      // Handle error silently or show toast notification
+    } catch (err) {
+      console.error('Login error:', err)
     } finally {
       setIsLoading(false)
     }
@@ -40,8 +40,8 @@ export function LoginForm() {
         role: "provider"
       })
       window.location.href = '/provider/dashboard'
-    } catch (error) {
-      // Handle error silently or show toast notification
+    } catch (err) {
+      console.error('Login error:', err)
     } finally {
       setIsLoading(false)
     }
