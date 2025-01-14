@@ -8,10 +8,10 @@ interface SignupData {
     role: string;
     businessName?: string;
     phoneNumber?: string;
-    services?: string;
+    services?: string[];
 }
 
-const API_URL = 'https://towy-backend-q72htpf2l-anoops-projects-e49f75e4.vercel.app';
+const API_URL = 'https://towy-backend-7bbps7yqu-anoops-projects-e49f75e4.vercel.app';
 
 // Helper function for headers
 const getHeaders = () => {
