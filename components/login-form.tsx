@@ -1,14 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { authService } from "@/services/api"
 
 export function LoginForm() {
-  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -20,8 +15,8 @@ export function LoginForm() {
     const password = formData.get("password") as string
 
     try {
-      const response = await authService.login({ email, password })
-      window.location.href = response.user.role === 'provider' 
+      const { user } = await authService.login({ email, password })
+      window.location.href = user.role === 'provider' 
         ? '/provider/dashboard' 
         : '/dashboard'
     } catch (err) {

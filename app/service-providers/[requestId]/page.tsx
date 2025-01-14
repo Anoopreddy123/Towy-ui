@@ -59,13 +59,13 @@ export default function NearbyProvidersPage() {
                 const providersData = await providersResponse.json();
                 console.log('Providers response:', providersData);
                 setProviders(providersData);
-            } catch (error) {
-                console.error('Error:', error);
+            } catch (err) {
+                console.error('Error:', err)
                 toast({
                     variant: "destructive",
                     title: "Error",
-                    description: error instanceof Error ? error.message : "Failed to fetch data",
-                });
+                    description: "Failed to fetch providers"
+                })
             } finally {
                 setLoading(false);
             }

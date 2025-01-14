@@ -38,7 +38,7 @@ export default function ProviderDashboard() {
                 const data = await response.json()
                 setRequests(data)
             } catch (err) {
-                console.log(err)
+                console.error('Failed to fetch requests:', err)
                 toast({
                     variant: "destructive",
                     title: "Error",
