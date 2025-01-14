@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react"
 import { useAuth } from "@/contexts/AuthContext"
-import { ServiceRequest } from "@/types/service"
+import { ServiceRequest, User } from "@/types/service"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 
 export default function ProviderDashboard() {
     const [requests, setRequests] = useState<ServiceRequest[]>([])
     const [loading, setLoading] = useState(true)
-    const { user } = useAuth()
+    const { user } = useAuth() as { user: User | null }
     const { toast } = useToast()
 
     useEffect(() => {

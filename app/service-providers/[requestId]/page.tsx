@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
-import { User } from "@/types/user"
+import { User } from "@/types/service"
 import { ServiceRequest } from "@/types/service"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
