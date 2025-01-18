@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:4000/api'
+    baseURL: 'https://towy-backend-a1nr3ts21-anoops-projects-e49f75e4.vercel.app'
 });
 
 // Add token to requests
