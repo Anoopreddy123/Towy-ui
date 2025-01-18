@@ -9,6 +9,7 @@ import { ServiceType } from "@/types/service"
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/contexts/AuthContext"
+import { API_URL } from "@/services/api"
 
 export function ServiceRequestForm() {
     const { user } = useAuth()
@@ -77,7 +78,7 @@ export function ServiceRequestForm() {
                 description: formData.get('description')
             }
 
-            const response = await fetch('http://localhost:4000/api/services/request', {
+            const response = await fetch(`${API_URL}/api/services/request`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

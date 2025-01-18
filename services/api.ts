@@ -11,7 +11,7 @@ interface SignupData {
     services?: string[];
 }
 
-const API_URL = "https://towy-backend-a1nr3ts21-anoops-projects-e49f75e4.vercel.app";
+export const API_URL = "https://towy-backend-a1nr3ts21-anoops-projects-e49f75e4.vercel.app";
 
 if (!API_URL) {
     throw new Error('API_URL not configured');
