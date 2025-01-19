@@ -70,12 +70,12 @@ export function ServiceRequestForm() {
 
         try {
             const formData = new FormData(event.currentTarget)
-            const data = {
+            const requestData = {
                 serviceType: formData.get('serviceType'),
-                location: location,
-                coordinates: coordinates,
+                location: formData.get('location'),
                 vehicleType: formData.get('vehicleType'),
-                description: formData.get('description')
+                description: formData.get('description'),
+                coordinates
             }
 
             const response = await fetch(`${API_URL}/api/services/request`, {
@@ -84,7 +84,7 @@ export function ServiceRequestForm() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(requestData)
             })
 
             if (!response.ok) {
