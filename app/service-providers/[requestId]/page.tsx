@@ -6,6 +6,7 @@ import { User } from "@/types/service"
 import { ServiceRequest } from "@/types/service"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
+import { API_URL } from "@/services/api"
 
 export default function NearbyProvidersPage() {
     const [providers, setProviders] = useState<User[]>([])
@@ -18,11 +19,14 @@ export default function NearbyProvidersPage() {
         const fetchRequestAndProviders = async () => {
             try {
                 // Fetch service request details
-                const requestResponse = await fetch(`http://localhost:4000/api/services/request/${requestId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                const requestResponse = await fetch(
+                    `${API_URL}/api/services/request/${requestId}`,
+                    {
+                        headers: {
+                            "Authorization": `Bearer ${localStorage.getItem("token")}`
+                        }
                     }
-                });
+                );
 
                 if (!requestResponse.ok) {
                     throw new Error('Failed to fetch service request');
@@ -43,7 +47,7 @@ export default function NearbyProvidersPage() {
                 }
 
                 // Fetch nearby providers
-                const providersUrl = `http://localhost:4000/api/services/nearby-providers?latitude=${requestData.coordinates.lat}&longitude=${requestData.coordinates.lng}&serviceType=${requestData.serviceType}`;
+                const providersUrl = `${API_URL}/api/services/nearby-providers?latitude=${requestData.coordinates.lat}&longitude=${requestData.coordinates.lng}&serviceType=${requestData.serviceType}`;
                 console.log('Fetching providers with URL:', providersUrl);
                 
                 const providersResponse = await fetch(providersUrl, {

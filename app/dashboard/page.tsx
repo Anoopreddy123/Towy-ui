@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { API_URL } from "@/services/api"
 
 interface ServiceRequest {
     id: string
@@ -34,7 +35,7 @@ export default function DashboardPage() {
         setUser(JSON.parse(userData))
 
         // Fetch user's service requests
-        fetch('http://localhost:4000/api/services/user-requests', {
+        fetch(`${API_URL}/api/services/user-requests`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }

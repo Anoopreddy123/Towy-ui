@@ -5,6 +5,7 @@ import { useAuth } from "@/contexts/AuthContext"
 import { ServiceRequest, User } from "@/types/service"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
+import { API_URL } from "@/services/api"
 
 export default function ProviderDashboard() {
     const [requests, setRequests] = useState<ServiceRequest[]>([])
@@ -25,7 +26,7 @@ export default function ProviderDashboard() {
                 }
 
                 const response = await fetch(
-                    `http://localhost:4000/api/services/nearby-requests?latitude=${user.location.lat}&longitude=${user.location.lng}`,
+                    `${API_URL}/api/services/nearby-requests?latitude=${user.location.lat}&longitude=${user.location.lng}`,
                     {
                         headers: {
                             'Authorization': `Bearer ${localStorage.getItem('token')}`
