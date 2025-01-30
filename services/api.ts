@@ -13,7 +13,7 @@ interface SignupData {
 
 //Adding static API_URL
 
-export const API_URL = "https://towy-backend-a1nr3ts21-anoops-projects-e49f75e4.vercel.app";
+export const API_URL = "https://towy-backend.vercel.app/";
 
 
 if (!API_URL) {
