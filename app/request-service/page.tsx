@@ -37,7 +37,7 @@ export default function RequestServicePage() {
             const location = formData.get('location') as string
             const [lat, lng] = location.split(',').map(coord => parseFloat(coord.trim()))
 
-            const response = await fetch(`${API_URL}/api/services/request`, {
+            const response = await fetch(`${API_URL}/services/request`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
