@@ -26,7 +26,7 @@ export default function ProviderDashboard() {
                 }
 
                 const response = await fetch(
-                    `${API_URL}/api/services/nearby-requests?latitude=${user.location.lat}&longitude=${user.location.lng}`,
+                    `${API_URL}/services/nearby-requests?latitude=${user.location.lat}&longitude=${user.location.lng}`,
                     {
                         headers: {
                             'Authorization': `Bearer ${localStorage.getItem('token')}`

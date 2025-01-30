@@ -78,7 +78,7 @@ export function ServiceRequestForm() {
                 coordinates
             }
 
-            const response = await fetch(`${API_URL}/api/services/request`, {
+            const response = await fetch(`${API_URL}/services/request`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

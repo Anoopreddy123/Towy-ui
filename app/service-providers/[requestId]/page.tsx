@@ -20,7 +20,7 @@ export default function NearbyProvidersPage() {
             try {
                 // Fetch service request details
                 const requestResponse = await fetch(
-                    `${API_URL}/api/services/request/${requestId}`,
+                    `${API_URL}/services/request/${requestId}`,
                     {
                         headers: {
                             "Authorization": `Bearer ${localStorage.getItem("token")}`
@@ -47,7 +47,7 @@ export default function NearbyProvidersPage() {
                 }
 
                 // Fetch nearby providers
-                const providersUrl = `${API_URL}/api/services/nearby-providers?latitude=${requestData.coordinates.lat}&longitude=${requestData.coordinates.lng}&serviceType=${requestData.serviceType}`;
+                const providersUrl = `${API_URL}/services/nearby-providers?latitude=${requestData.coordinates.lat}&longitude=${requestData.coordinates.lng}&serviceType=${requestData.serviceType}`;
                 console.log('Fetching providers with URL:', providersUrl);
                 
                 const providersResponse = await fetch(providersUrl, {
@@ -80,7 +80,7 @@ export default function NearbyProvidersPage() {
 
     const notifyProvider = async (providerId: string) => {
         try {
-            const response = await fetch(`http://localhost:4000/api/services/notify-provider`, {
+            const response = await fetch(`http://localhost:4000/services/notify-provider`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

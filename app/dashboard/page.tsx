@@ -35,7 +35,7 @@ export default function DashboardPage() {
         setUser(JSON.parse(userData))
 
         // Fetch user's service requests
-        fetch(`${API_URL}/api/services/user-requests`, {
+        fetch(`${API_URL}/services/user-requests`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
