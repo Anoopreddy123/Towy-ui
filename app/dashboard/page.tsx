@@ -18,6 +18,7 @@ interface User {
     name: string
     email: string
     role: string
+    businessName?: string
 }
 
 export default function DashboardPage() {
@@ -49,7 +50,9 @@ export default function DashboardPage() {
 
     return (
         <div className="container mx-auto py-20">
-            <h1 className="text-3xl font-bold mb-6">Hi {user.name}</h1>
+            <h1 className="text-3xl font-bold mb-6">
+                Hi {user?.businessName || user?.name || 'there'}
+            </h1>
             
             <div className="bg-white shadow rounded-lg p-6 mb-6">
                 <h2 className="text-2xl font-semibold mb-4">Your Service Requests</h2>

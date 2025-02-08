@@ -5,9 +5,13 @@ import { authService } from "@/services/api"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useRouter } from "next/navigation"
+import { useAuth } from "@/contexts/AuthContext"
 
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
+  const { setUser } = useAuth()
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -18,10 +22,13 @@ export function LoginForm() {
     const password = formData.get("password") as string
 
     try {
-      const { user } = await authService.login({ email, password })
-      window.location.href = user.role === 'provider' 
-        ? '/provider/dashboard' 
-        : '/dashboard'
+      const response = await authService.login({ email, password })
+      if (response.token && response.user) {
+        localStorage.setItem('token', response.token)
+        localStorage.setItem('user', JSON.stringify(response.user))
+        setUser(response.user)
+        router.push(response.user.role === 'provider' ? '/provider/dashboard' : '/dashboard')
+      }
     } catch (err) {
       console.error('Login error:', err)
     } finally {
@@ -32,14 +39,23 @@ export function LoginForm() {
   const loginAsProvider = async () => {
     setIsLoading(true)
     try {
-      const response = await authService.login({ 
-        email: "anoopreddy51@gmail.com", 
-        password: "password123",
-        role: "provider"
+      const formData = new FormData(document.querySelector('form') as HTMLFormElement)
+      const email = formData.get("email") as string
+      const password = formData.get("password") as string
+
+      const response = await authService.loginProvider({ 
+        email,
+        password
       })
-      window.location.href = '/provider/dashboard'
+
+      if (response.token) {
+        localStorage.setItem('token', response.token)
+        localStorage.setItem('user', JSON.stringify(response.user))
+        setUser(response.user)
+        router.push('/provider/dashboard')
+      }
     } catch (err) {
-      console.error('Login error:', err)
+      console.error('Provider login error:', err)
     } finally {
       setIsLoading(false)
     }
