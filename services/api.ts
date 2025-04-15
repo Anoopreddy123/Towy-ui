@@ -27,7 +27,8 @@ if (!API_URL || !API_URL.startsWith('http')) {
 // Helper function for headers
 const getHeaders = () => {
     const headers = new Headers({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
     });
     
     const token = localStorage.getItem('token');
@@ -92,6 +93,7 @@ export const authService = {
         const response = await fetch(`${API_URL}/auth/login`, {
             method: 'POST',
             headers: getHeaders(),
+            credentials: 'include',
             body: JSON.stringify(credentials)
         });
 
