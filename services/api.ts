@@ -13,8 +13,8 @@ interface SignupData {
 
 //Adding static API_URL
 
-//  export const API_URL = "https://towy-backend.vercel.app";
-export const API_URL = "http://localhost:4000";
+ export const API_URL = "https://towy-backend.vercel.app";
+// export const API_URL = "http://localhost:4000";
 
 if (!API_URL) {
     throw new Error('API_URL not configured');
