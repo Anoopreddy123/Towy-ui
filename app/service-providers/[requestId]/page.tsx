@@ -80,7 +80,7 @@ export default function NearbyProvidersPage() {
 
     const notifyProvider = async (providerId: string) => {
         try {
-            const response = await fetch(`http://localhost:4000/services/notify-provider`, {
+            const response = await fetch(`${API_URL}/services/notify-provider`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
