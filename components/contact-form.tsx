@@ -18,10 +18,8 @@ export function ContactForm() {
   }
 
   return (
-    <section className="py-12 md:py-20">
-      <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+    <div className="max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
             <div>
               <div className="mb-6 md:mb-8">
                 <div className="text-green-600 text-lg md:text-2xl mb-2 font-extrabold">CONTACT US</div>
@@ -89,7 +87,5 @@ export function ContactForm() {
             </div>
           </div>
         </div>
-      </div>
-    </section>
   )
 }

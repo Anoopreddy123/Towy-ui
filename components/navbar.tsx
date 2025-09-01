@@ -38,6 +38,7 @@ export default function Navbar() {
                     <div className="hidden md:flex items-center gap-4">
                         <Link href="/" className="hover:text-green-600 transition-colors">Home</Link>
                         <Link href="/about" className="hover:text-green-600 transition-colors">About</Link>
+                        <Link href="/contact" className="hover:text-green-600 transition-colors">Contact</Link>
                         
                         {user && (
                             <>
@@ -117,6 +118,13 @@ export default function Navbar() {
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 About
+                            </Link>
+                            <Link 
+                                href="/contact" 
+                                className="hover:text-green-600 transition-colors"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                Contact
                             </Link>
                             
                             {user && (
