@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { API_URL } from "@/services/api"
+import { Button } from "@/components/ui/button"
+import { Plus, Zap, Clock, MapPin } from "lucide-react"
 
 interface ServiceRequest {
     id: string
@@ -49,10 +51,40 @@ export default function DashboardPage() {
     if (!user) return null
 
     return (
-        <div className="container mx-auto py-20">
-            <h1 className="text-3xl font-bold mb-6">
-                Hi {user?.businessName || user?.name || 'there'}
-            </h1>
+        <div className="container mx-auto py-20 px-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+                <h1 className="text-3xl font-bold mb-4 md:mb-0">
+                    Hi {user?.businessName || user?.name || 'there'}
+                </h1>
+                <div className="flex flex-col sm:flex-row gap-3">
+                    <Button 
+                        onClick={() => router.push('/request-service')}
+                        className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 font-medium"
+                    >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Request New Service
+                    </Button>
+                </div>
+            </div>
+
+            {/* Service Types Display */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <ServiceTypeCard 
+                    icon={<Zap className="h-5 w-5" />}
+                    title="Emergency Towing"
+                    subtitle="24/7 fast response"
+                />
+                <ServiceTypeCard 
+                    icon={<Clock className="h-5 w-5" />}
+                    title="Roadside Assistance"
+                    subtitle="Jump start, tire change"
+                />
+                <ServiceTypeCard 
+                    icon={<MapPin className="h-5 w-5" />}
+                    title="Vehicle Recovery"
+                    subtitle="Safe transport"
+                />
+            </div>
             
             <div className="bg-white shadow rounded-lg p-6 mb-6">
                 <h2 className="text-2xl font-semibold mb-4">Your Service Requests</h2>
@@ -87,6 +119,26 @@ export default function DashboardPage() {
                     {requests.length === 0 && (
                         <p className="text-gray-500 text-center py-4">No service requests yet.</p>
                     )}
+                </div>
+            </div>
+        </div>
+    )
+}
+
+function ServiceTypeCard({ icon, title, subtitle }: { 
+    icon: React.ReactNode; 
+    title: string; 
+    subtitle: string; 
+}) {
+    return (
+        <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+            <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
+                    {icon}
+                </div>
+                <div>
+                    <h3 className="font-semibold text-gray-800">{title}</h3>
+                    <p className="text-sm text-gray-600">{subtitle}</p>
                 </div>
             </div>
         </div>
