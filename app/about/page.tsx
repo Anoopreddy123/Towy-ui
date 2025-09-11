@@ -132,3 +132,4 @@ function Step({ index, title, text }: { index: number; title: string; text: stri
     </div>
   )
 }
+

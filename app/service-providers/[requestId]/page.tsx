@@ -78,31 +78,37 @@ export default function NearbyProvidersPage() {
         fetchRequestAndProviders();
     }, [requestId, toast]);
 
-    const notifyProvider = async (providerId: string) => {
+    const markAsComplete = async () => {
         try {
-            const response = await fetch(`${API_URL}/services/notify-provider`, {
-                method: 'POST',
+            const response = await fetch(`${API_URL}/services/request/${requestId}/status`, {
+                method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
                 body: JSON.stringify({
-                    requestId,
-                    providerId
+                    status: 'completed'
                 })
             })
 
             if (response.ok) {
                 toast({
                     title: "Success",
-                    description: "Provider has been notified",
+                    description: "Service request marked as complete",
                 })
+                // Redirect to dashboard after a short delay
+                setTimeout(() => {
+                    window.location.href = '/dashboard'
+                }, 1500)
+            } else {
+                throw new Error('Failed to update status')
             }
         } catch (error) {
+            console.error('Error marking service as complete:', error)
             toast({
                 variant: "destructive",
                 title: "Error",
-                description: "Failed to notify provider",
+                description: "Failed to mark service as complete",
             })
         }
     }
@@ -134,20 +140,23 @@ export default function NearbyProvidersPage() {
                 {providers.length > 0 ? (
                     providers.map((provider) => (
                         <div key={provider.id} className="border rounded-lg p-4 shadow-sm">
-                            <div className="flex justify-between items-start mb-4">
-                                <div>
-                                    <h3 className="font-semibold">{provider.name}</h3>
-                                    <p className="text-sm text-gray-600">{provider.businessName}</p>
-                                    <p className="text-sm text-gray-600">Distance: {provider.distance?.toFixed(1)} km</p>
-                                    <p className="text-sm text-gray-600">Services: {provider.services?.join(', ')}</p>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Button 
-                                        onClick={() => notifyProvider(provider.id)}
-                                        className="bg-green-600 hover:bg-green-700"
-                                    >
-                                        Notify
-                                    </Button>
+                            <div className="mb-4">
+                                <h3 className="font-semibold text-lg">{provider.name}</h3>
+                                <p className="text-sm text-gray-600 font-medium">{provider.businessName}</p>
+                                <p className="text-sm text-gray-500 mt-1">Distance: {provider.distance?.toFixed(1)} km</p>
+                                <p className="text-sm text-gray-500">Services: {provider.services?.join(', ')}</p>
+                                
+                                {/* Contact Information */}
+                                <div className="mt-3 pt-3 border-t border-gray-200">
+                                    <h4 className="font-medium text-sm text-gray-700 mb-2">Contact Information:</h4>
+                                    <div className="space-y-1">
+                                        <p className="text-sm text-gray-600">
+                                            <span className="font-medium">Phone:</span> {provider.phone}
+                                        </p>
+                                        <p className="text-sm text-gray-600">
+                                            <span className="font-medium">Email:</span> {provider.email}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -162,6 +171,21 @@ export default function NearbyProvidersPage() {
                     </p>
                 )}
             </div>
+
+            {/* Mark as Complete Button */}
+            {request && request.status !== 'completed' && (
+                <div className="mt-8 text-center">
+                    <Button 
+                        onClick={markAsComplete}
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg"
+                    >
+                        Mark as Complete
+                    </Button>
+                    <p className="text-sm text-gray-500 mt-2">
+                        Mark this service request as complete when you&apos;re done
+                    </p>
+                </div>
+            )}
         </div>
     )
 } 

@@ -92,7 +92,16 @@ export default function DashboardPage() {
                     {requests.map((request) => (
                         <div 
                             key={request.id} 
-                            className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                            className={`p-4 border rounded-lg shadow-sm transition-all ${
+                                request.status === 'completed' 
+                                    ? 'opacity-60 cursor-not-allowed' 
+                                    : 'hover:shadow-md cursor-pointer'
+                            }`}
+                            onClick={() => {
+                                if (request.status !== 'completed') {
+                                    router.push(`/service-providers/${request.id}`)
+                                }
+                            }}
                         >
                             <div className="flex justify-between items-start">
                                 <div>
@@ -104,6 +113,11 @@ export default function DashboardPage() {
                                     <p className="text-sm text-gray-500 mt-1">
                                         {new Date(request.createdAt).toLocaleDateString()}
                                     </p>
+                                    {request.status !== 'completed' && (
+                                        <p className="text-xs text-blue-600 mt-2">
+                                            Click to view nearby providers
+                                        </p>
+                                    )}
                                 </div>
                                 <span className={`px-3 py-1 rounded-full text-sm ${
                                     request.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
