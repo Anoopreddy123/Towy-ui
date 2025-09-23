@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import { useAuth } from "@/contexts/AuthContext"
 import { API_URL } from "@/services/api"
 
@@ -17,6 +18,7 @@ type NearbyRequest = {
 
 export default function ProviderDashboard() {
     const { user } = useAuth()
+    const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [requests, setRequests] = useState<NearbyRequest[]>([])
@@ -68,7 +70,13 @@ export default function ProviderDashboard() {
 
                         <div className="space-y-3">
                             {requests.map((r) => (
-                                <div key={r.id} className="border rounded-lg p-3">
+                                <div
+                                    key={r.id}
+                                    className="border rounded-lg p-3 hover:bg-gray-50 cursor-pointer transition"
+                                    onClick={() => router.push(`/provider/service/${r.id}`)}
+                                    role="button"
+                                    aria-label={`View request ${r.serviceType}`}
+                                >
                                     <div className="flex items-start justify-between">
                                         <div>
                                             <p className="font-medium">{r.serviceType}</p>

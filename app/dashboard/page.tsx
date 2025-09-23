@@ -44,8 +44,23 @@ export default function DashboardPage() {
             }
         })
         .then(res => res.json())
-        .then(data => setRequests(data))
-        .catch(console.error)
+        .then(data => {
+            // Ensure data is an array, handle different response formats
+            if (Array.isArray(data)) {
+                setRequests(data)
+            } else if (data && Array.isArray(data.requests)) {
+                setRequests(data.requests)
+            } else if (data && Array.isArray(data.data)) {
+                setRequests(data.data)
+            } else {
+                console.warn('Unexpected API response format:', data)
+                setRequests([])
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching service requests:', error)
+            setRequests([])
+        })
     }, [router])
 
     if (!user) return null
@@ -89,7 +104,7 @@ export default function DashboardPage() {
             <div className="bg-white shadow rounded-lg p-6 mb-6">
                 <h2 className="text-2xl font-semibold mb-4">Your Service Requests</h2>
                 <div className="space-y-4">
-                    {requests.map((request) => (
+                    {Array.isArray(requests) && requests.map((request) => (
                         <div 
                             key={request.id} 
                             className={`p-4 border rounded-lg shadow-sm transition-all ${
@@ -130,7 +145,7 @@ export default function DashboardPage() {
                             </div>
                         </div>
                     ))}
-                    {requests.length === 0 && (
+                    {(!Array.isArray(requests) || requests.length === 0) && (
                         <p className="text-gray-500 text-center py-4">No service requests yet.</p>
                     )}
                 </div>

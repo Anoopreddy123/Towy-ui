@@ -12,6 +12,7 @@ export default function NearbyProvidersPage() {
     const [providers, setProviders] = useState<User[]>([])
     const [request, setRequest] = useState<ServiceRequest | null>(null)
     const [loading, setLoading] = useState(true)
+    const [radiusMiles, setRadiusMiles] = useState<number>(20)
     const { requestId } = useParams()
     const { toast } = useToast()
 
@@ -46,8 +47,9 @@ export default function NearbyProvidersPage() {
                     return;
                 }
 
-                // Fetch nearby providers
-                const providersUrl = `${API_URL}/services/nearby-providers?latitude=${requestData.coordinates.lat}&longitude=${requestData.coordinates.lng}&serviceType=${requestData.serviceType}`;
+                // Fetch nearby providers using selected radius (miles -> km)
+                const radiusKm = Math.round(radiusMiles * 1.60934)
+                const providersUrl = `${API_URL}/services/nearby-providers?latitude=${requestData.coordinates.lat}&longitude=${requestData.coordinates.lng}&serviceType=${requestData.serviceType}&radius=${radiusKm}`;
                 console.log('Fetching providers with URL:', providersUrl);
                 
                 const providersResponse = await fetch(providersUrl, {
@@ -76,7 +78,7 @@ export default function NearbyProvidersPage() {
         };
 
         fetchRequestAndProviders();
-    }, [requestId, toast]);
+    }, [requestId, toast, radiusMiles]);
 
     const markAsComplete = async () => {
         try {
@@ -126,6 +128,19 @@ export default function NearbyProvidersPage() {
     return (
         <div className="container mx-auto py-20">
             <h1 className="text-3xl font-bold mb-6">Nearby Service Providers</h1>
+            <div className="mb-6 flex items-center gap-3">
+                <label className="text-sm text-gray-700">Search Radius:</label>
+                <select
+                    className="border rounded px-2 py-1 text-sm"
+                    value={radiusMiles}
+                    onChange={(e) => setRadiusMiles(parseInt(e.target.value, 10))}
+                >
+                    <option value={20}>20 mi</option>
+                    <option value={35}>35 mi</option>
+                    <option value={40}>40 mi</option>
+                    <option value={50}>50 mi</option>
+                </select>
+            </div>
             
             {request && (
                 <div className="bg-gray-50 p-4 rounded-lg mb-6">
