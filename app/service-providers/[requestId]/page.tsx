@@ -35,10 +35,24 @@ export default function NearbyProvidersPage() {
 
                 const requestData = await requestResponse.json();
                 console.log('Service request data:', requestData);
+                console.log('Coordinates check:', requestData.coordinates);
+                console.log('Coordinates exists:', !!requestData.coordinates);
+                console.log('Lat exists:', !!requestData.coordinates?.lat);
+                console.log('Lng exists:', !!requestData.coordinates?.lng);
                 setRequest(requestData);
 
-                if (!requestData.coordinates || !requestData.coordinates.lat || !requestData.coordinates.lng) {
+                if (!requestData.coordinates || 
+                    typeof requestData.coordinates.lat !== 'number' || 
+                    typeof requestData.coordinates.lng !== 'number' ||
+                    isNaN(requestData.coordinates.lat) || 
+                    isNaN(requestData.coordinates.lng)) {
                     console.error('No valid coordinates in request data:', requestData.coordinates);
+                    console.error('Coordinate types:', {
+                        lat: typeof requestData.coordinates?.lat,
+                        lng: typeof requestData.coordinates?.lng,
+                        latValue: requestData.coordinates?.lat,
+                        lngValue: requestData.coordinates?.lng
+                    });
                     toast({
                         variant: "destructive",
                         title: "Error",
