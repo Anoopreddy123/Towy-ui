@@ -37,12 +37,22 @@ export default function NearbyProvidersPage() {
                 console.log('Service request data:', requestData);
                 setRequest(requestData);
 
-                if (!requestData.coordinates) {
-                    console.error('No coordinates in request data');
+                if (!requestData.coordinates || !requestData.coordinates.lat || !requestData.coordinates.lng) {
+                    console.error('No valid coordinates in request data:', requestData.coordinates);
                     toast({
                         variant: "destructive",
                         title: "Error",
                         description: "Location data is missing from the request.",
+                    });
+                    return;
+                }
+
+                if (!requestData.serviceType) {
+                    console.error('No service type in request data:', requestData);
+                    toast({
+                        variant: "destructive",
+                        title: "Error",
+                        description: "Service type is missing from the request.",
                     });
                     return;
                 }
