@@ -39,19 +39,33 @@ export default function NearbyProvidersPage() {
                 console.log('Coordinates exists:', !!requestData.coordinates);
                 console.log('Lat exists:', !!requestData.coordinates?.lat);
                 console.log('Lng exists:', !!requestData.coordinates?.lng);
+                
+                // Parse coordinates if they come as a JSON string (backend fallback)
+                let parsedCoordinates = requestData.coordinates;
+                if (typeof requestData.coordinates === 'string' && requestData.coordinates.startsWith('{')) {
+                    try {
+                        parsedCoordinates = JSON.parse(requestData.coordinates);
+                        console.log('Parsed coordinates from string:', parsedCoordinates);
+                        // Update the request data with parsed coordinates
+                        requestData.coordinates = parsedCoordinates;
+                    } catch (e) {
+                        console.error('Failed to parse coordinates string:', e);
+                    }
+                }
+                
                 setRequest(requestData);
 
-                if (!requestData.coordinates || 
-                    typeof requestData.coordinates.lat !== 'number' || 
-                    typeof requestData.coordinates.lng !== 'number' ||
-                    isNaN(requestData.coordinates.lat) || 
-                    isNaN(requestData.coordinates.lng)) {
-                    console.error('No valid coordinates in request data:', requestData.coordinates);
+                if (!parsedCoordinates || 
+                    typeof parsedCoordinates.lat !== 'number' || 
+                    typeof parsedCoordinates.lng !== 'number' ||
+                    isNaN(parsedCoordinates.lat) || 
+                    isNaN(parsedCoordinates.lng)) {
+                    console.error('No valid coordinates in request data:', parsedCoordinates);
                     console.error('Coordinate types:', {
-                        lat: typeof requestData.coordinates?.lat,
-                        lng: typeof requestData.coordinates?.lng,
-                        latValue: requestData.coordinates?.lat,
-                        lngValue: requestData.coordinates?.lng
+                        lat: typeof parsedCoordinates?.lat,
+                        lng: typeof parsedCoordinates?.lng,
+                        latValue: parsedCoordinates?.lat,
+                        lngValue: parsedCoordinates?.lng
                     });
                     toast({
                         variant: "destructive",
@@ -73,7 +87,7 @@ export default function NearbyProvidersPage() {
 
                 // Fetch nearby providers using selected radius (miles -> km)
                 const radiusKm = Math.round(radiusMiles * 1.60934)
-                const providersUrl = `${API_URL}/services/nearby-providers?latitude=${requestData.coordinates.lat}&longitude=${requestData.coordinates.lng}&serviceType=${requestData.serviceType}&radius=${radiusKm}`;
+                const providersUrl = `${API_URL}/services/nearby-providers?latitude=${parsedCoordinates.lat}&longitude=${parsedCoordinates.lng}&serviceType=${requestData.serviceType}&radius=${radiusKm}`;
                 console.log('Fetching providers with URL:', providersUrl);
                 
                 const providersResponse = await fetch(providersUrl, {
