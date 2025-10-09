@@ -53,6 +53,20 @@ export default function NearbyProvidersPage() {
                     }
                 }
                 
+                // Normalize field names from snake_case to camelCase (backend compatibility)
+                if (requestData.service_type && !requestData.serviceType) {
+                    requestData.serviceType = requestData.service_type;
+                }
+                if (requestData.vehicle_type && !requestData.vehicleType) {
+                    requestData.vehicleType = requestData.vehicle_type;
+                }
+                if (requestData.created_at && !requestData.createdAt) {
+                    requestData.createdAt = requestData.created_at;
+                }
+                if (requestData.updated_at && !requestData.updatedAt) {
+                    requestData.updatedAt = requestData.updated_at;
+                }
+                
                 setRequest(requestData);
 
                 if (!parsedCoordinates || 
