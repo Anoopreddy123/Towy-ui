@@ -13,7 +13,7 @@ interface SignupData {
 
 // API URL configuration
 export const API_URL = process.env.NODE_ENV === 'production' 
-    ? "https://towy-backend.vercel.app/"
+    ? "https://towy-backend.vercel.app"
     : "http://localhost:4000";
 
 if (!API_URL) {
